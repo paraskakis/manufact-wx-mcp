@@ -1,10 +1,13 @@
 import { MCPServer } from "mcp-use";
 import { z } from "zod";
 
+const allowedOrigins = ["localhost", "127.0.0.1", "[::1]", "manufact.com"];
+
 const server = new MCPServer({
   name: "airport-weather", title: "Airport Weather", version: "1.0.0",
   description: "Current weather conditions for US airports from the National Weather Service.",
   instructions: "Use get-airport-weather with a four-letter ICAO airport code such as KJFK or KLAX.",
+  allowedOrigins,
   cors: { origin: "*" }, icons: [{ src: "icon.svg", mimeType: "image/svg+xml", sizes: ["512x512"] }],
 });
 const valueSchema = z.object({ value: z.number().nullable().describe("Numeric value in the supplied unit, or null when unavailable"), unit: z.string().describe("Unit code supplied by the NWS, or empty when unavailable") });
